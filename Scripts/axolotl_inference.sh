@@ -1,0 +1,1 @@
+accelerate launch -m axolotl.cli.inference annie-llama.yaml --lora_model_dir="./qlora-out"
