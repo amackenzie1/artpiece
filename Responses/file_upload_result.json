@@ -1,0 +1,12 @@
+{
+  "filename": "discord.jsonl",
+  "id": "file-f78c60b8-ca39-4caf-a14d-e417ceb93144",
+  "object": "file",
+  "report_dict": {
+    "is_check_passed": true,
+    "model_special_tokens": "we are not yet checking end of sentence tokens for this model",
+    "file_present": "File found",
+    "file_size": "File size 0.002 GB",
+    "num_samples": 1137
+  }
+}
