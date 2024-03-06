@@ -1,0 +1,1 @@
+accelerate launch -m axolotl.cli.train ../Config/config.yaml --eval_sample_packing=False
