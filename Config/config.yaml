@@ -22,6 +22,12 @@ sequence_len: 4096
 sample_packing: true
 pad_to_sequence_len: true
 
+wandb_project: "annie-llama"
+wandb_entity:
+wandb_watch:
+wandb_run_id:
+wandb_log_model: "checkpoint"
+
 lora_r: 32
 lora_alpha: 16
 lora_dropout: 0.05
