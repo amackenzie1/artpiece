@@ -1,4 +1,4 @@
-base_model: NousResearch/Llama-2-7b-hf
+base_model: NousResearch/Llama-2-13b-hf
 model_type: LlamaForCausalLM
 tokenizer_type: LlamaTokenizer
 
@@ -11,7 +11,7 @@ datasets:
     type: completion
     field: text
 dataset_prepared_path:
-hub_model_id: dandelion4/annie-llama
+hub_model_id: dandelion4/annie-llama-13
 val_set_size: 0.05
 output_dir: ./qlora-out
 
@@ -22,13 +22,13 @@ sequence_len: 4096
 sample_packing: true
 pad_to_sequence_len: true
 
-wandb_project: "annie-llama"
+wandb_project: "annie-llama-13"
 wandb_entity:
 wandb_watch:
 wandb_run_id:
 wandb_log_model: "checkpoint"
 
-lora_r: 32
+lora_r: 128
 lora_alpha: 16
 lora_dropout: 0.05
 lora_target_modules:
