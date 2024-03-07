@@ -1,8 +1,6 @@
 from datasets import DatasetDict, load_dataset
 
-data = load_dataset("json", data_files="Data/discord.jsonl")
+data = load_dataset("json", data_files="Data/discord_stella.jsonl")
 
-print(data)
-
-dataset_name = "dandelion4/ex-3"
+dataset_name = "dandelion4/ex-1"
 data.push_to_hub(dataset_name, branch="main", private=True)
