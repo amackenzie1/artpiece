@@ -61,7 +61,7 @@ while True:
     # Update conversation history with the user input
     name = girls[girl]["name"]
     user_input_ids = tokenizer.encode(f"Andrew: {user_input}\n{name}:", return_tensors="pt")
-    user_input_ids = user_input_ids.to(accelerator.device)
+    user_input_ids = user_input_ids.to(conversation_history.device)
     conversation_history = torch.cat([conversation_history, user_input_ids], dim=-1)
 
     # Generate a response
