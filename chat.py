@@ -47,7 +47,9 @@ model.eval()
 model = accelerator.prepare(model)
 
 # Initialize conversation history
-conversation_history = ""
+conversation_history = """
+    Discord chat logs: 2024-03-07
+"""
 
 # Chat loop
 while True:
