@@ -1,8 +1,26 @@
+import sys
+
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
+exes = {
+    1: {
+        "name": "Stella",
+        "model": 'dandelion4/stella-mistral-7b'
+    }, 
+    2: {
+        "name": "Lily",
+        "model": "dandelion4/lily-mistral-7b"
+    },
+    3: {
+        "name": "Anastasia",
+        "model": "dandelion4/annie-mixtral"
+    }
+}
+# args 
+ex = int(sys.argv[1])
 # Initialize the tokenizer and model
-adapter_model_id = "dandelion4/stella-mistral"
+adapter_model_id = exes[ex]["model"]
 model = AutoModelForCausalLM.from_pretrained(adapter_model_id)
 tokenizer = AutoTokenizer.from_pretrained(adapter_model_id)
 
@@ -24,7 +42,8 @@ while True:
         break
 
     # Update conversation history with the user input
-    conversation_history += "Andrew: " + user_input + "\nStella: "
+    name = exes[ex]["name"]
+    conversation_history += "Andrew: " + user_input + f"\n{name}: "
 
     # Encode the conversation history for the model
     inputs = tokenizer.encode(conversation_history, return_tensors="pt")
@@ -46,9 +65,9 @@ while True:
                                 num_return_sequences=1)
     raw_response = tokenizer.decode(response_ids[0], skip_special_tokens=True)
     response = raw_response.split(conversation_history)[-1]
-    response = response.split("\nAndrew:")[0]
+    response = response.split(f"\n{name}:")[0]
     # Print the model's response
-    print(f"Stella: {response}")
+    print(f"{name}: {response}")
 
     # Update conversation history with the model's response
     conversation_history += response + "\n"
