@@ -8,7 +8,7 @@ from transformers import (AutoModelForCausalLM, AutoTokenizer,
 # Initialize the tokenizer and model
 adapter_model_id = "dandelion4/annie-llama-mistral-7b"
 model = AutoModelForCausalLM.from_pretrained(adapter_model_id)
-tokenizer = AutoModelForCausalLM.from_pretrained(adapter_model_id)
+tokenizer = AutoTokenizer.from_pretrained(adapter_model_id)
 
 # Ensure the model is in evaluation mode
 model.eval()
