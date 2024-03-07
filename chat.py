@@ -15,8 +15,8 @@ girls = {
     },
     3: {
         "name": "Anastasia",
-        "model": "dandelion4/annie-mistral-7b"
-        # "model": "dandelion4/annie-mixtral"
+        # "model": "dandelion4/annie-mistral-7b"
+        "model": "dandelion4/annie-mixtral"
     }
 }
 
