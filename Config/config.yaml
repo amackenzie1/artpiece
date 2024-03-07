@@ -1,6 +1,7 @@
-base_model: mistralai/Mistral-7B-v0.1
-model_type: MistralForCausalLM
+base_model: mistralai/Mixtral-8x7B-v0.1
+model_type: AutoModelForCausalLM
 tokenizer_type: LlamaTokenizer
+trust_remote_code: true
 
 load_in_8bit: false
 load_in_4bit: true
@@ -11,7 +12,7 @@ datasets:
     type: completion
     field: text
 dataset_prepared_path:
-hub_model_id: dandelion4/annie-llama-mistral-7b
+hub_model_id: dandelion4/annie-llama-mixtral
 val_set_size: 0.05
 output_dir: ./qlora-out
 
