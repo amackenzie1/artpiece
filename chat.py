@@ -47,7 +47,7 @@ model.eval()
 model = accelerator.prepare(model)
 
 # Initialize conversation history
-conversation_history = f"#### Discord chat logs between me and {girls[girl]['name']} ####\n"
+conversation_history = open(f"{girls[girl]['name']}_start.txt").read().strip() + "\n"
 
 # Chat loop
 while True:
