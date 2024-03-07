@@ -3,7 +3,7 @@ import sys
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-exes = {
+girls = {
     1: {
         "name": "Stella",
         "model": 'dandelion4/stella-mistral-7b'
@@ -18,9 +18,9 @@ exes = {
     }
 }
 # args 
-ex = int(sys.argv[1])
+girl = int(sys.argv[1])
 # Initialize the tokenizer and model
-adapter_model_id = exes[ex]["model"]
+adapter_model_id = girls[girl]["model"]
 model = AutoModelForCausalLM.from_pretrained(adapter_model_id)
 tokenizer = AutoTokenizer.from_pretrained(adapter_model_id)
 
@@ -42,7 +42,7 @@ while True:
         break
 
     # Update conversation history with the user input
-    name = exes[ex]["name"]
+    name = girls[girl]["name"]
     conversation_history += "Andrew: " + user_input + f"\n{name}: "
 
     # Encode the conversation history for the model
