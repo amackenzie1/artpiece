@@ -15,8 +15,8 @@ girls = {
     },
     3: {
         "name": "Anastasia",
-        # "model": "dandelion4/annie-mixtral"
-        "model": "mistralai/Mixtral-8x7B-v0.1"
+        "model": "dandelion4/annie-mixtral"
+        # "model": "mistralai/Mixtral-8x7B-v0.1"
     }
 }
 
@@ -28,8 +28,7 @@ girl = int(sys.argv[1])
 
 # Initialize the tokenizer and model
 adapter_model_id = girls[girl]["model"]
-model = AutoModelForCausalLM.from_pretrained(adapter_model_id, low_cpu_mem_usage=True, load_in_8bit=True, 
-                                             torch_dtype=torch.bfloat16,
+model = AutoModelForCausalLM.from_pretrained(adapter_model_id, low_cpu_mem_usage=True, 
                                              device_map="auto", trust_remote_code=True)
 tokenizer = AutoTokenizer.from_pretrained(adapter_model_id)
 
