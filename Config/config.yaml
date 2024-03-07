@@ -8,11 +8,11 @@ load_in_4bit: true
 strict: false
 
 datasets:
-  - path: dandelion4/ex-1
+  - path: dandelion4/ex-2
     type: completion
     field: text
 dataset_prepared_path:
-hub_model_id: dandelion4/stella-mistral-7b
+hub_model_id: dandelion4/lily-mistral-7b
 val_set_size: 0.05
 output_dir: ./qlora-out
 
