@@ -33,7 +33,7 @@ if ("mixtral" in adapter_model_id):
                                                 low_cpu_mem_usage=True, load_in_8bit=True, 
                                              torch_dtype=torch.bfloat16,
                                              device_map="auto", trust_remote_code=True)
-    model.load_adapter("dandelion4/annie-mixtral")
+    model.load_adapter(adapter_model_id)
 else:
     model = AutoModelForCausalLM.from_pretrained(adapter_model_id)
                                                
@@ -48,44 +48,47 @@ model = accelerator.prepare(model)
 
 # Initialize conversation history
 conversation_history = open(f"Data/{girls[girl]['name']}_start.txt").read().strip() + "\n"
+# Encode the initial conversation history
+conversation_history = tokenizer.encode(conversation_history, return_tensors="pt")
+conversation_history = conversation_history.to(accelerator.device)
 
-# Chat loop
 while True:
     # Get user input
     user_input = input("Andrew: ")
     if user_input.lower() == "quit":
         break
-    
+
     # Update conversation history with the user input
     name = girls[girl]["name"]
-    conversation_history += "Andrew: " + user_input + f"\n{name}: "
-    
-    # Encode the conversation history for the model
-    inputs = tokenizer.encode(conversation_history, return_tensors="pt")
-    inputs = inputs.to(accelerator.device)
-    
+    user_input_ids = tokenizer.encode(f"Andrew: {user_input}\n{name}:", return_tensors="pt")
+    user_input_ids = user_input_ids.to(accelerator.device)
+    conversation_history = torch.cat([conversation_history, user_input_ids], dim=-1)
+
     # Generate a response
     response_ids = accelerator.unwrap_model(model).generate(
-        inputs,
+        conversation_history,
         repetition_penalty=1.1,
-        max_new_tokens=1024,
+        max_new_tokens=128,
         temperature=0.8,
         top_p=0.8,
         top_k=0,
-        bos_token_id=tokenizer.bos_token_id,
+        pad_token_id=tokenizer.eos_token_id,
         eos_token_id=tokenizer.eos_token_id,
-        pad_token_id=tokenizer.pad_token_id,
         do_sample=True,
         use_cache=True,
         num_return_sequences=1
     )
-    
-    raw_response = tokenizer.decode(response_ids[0], skip_special_tokens=True)
-    response = raw_response.split(conversation_history)[-1]
-    response = response.split(f"\nAndrew:")[0]
-    
+
+    # Decode the generated response
+    response = tokenizer.decode(response_ids[:, conversation_history.shape[-1]:][0], skip_special_tokens=True)
+
+    if "Andrew:" in response:
+        response = response.split("Andrew:")[0].strip()
+
     # Print the model's response
     print(f"{name}: {response}")
-    
+
     # Update conversation history with the model's response
-    conversation_history += response + "\n"
+    response_ids = tokenizer.encode(f"{response}\n", return_tensors="pt")
+    response_ids = response_ids.to(accelerator.device)
+    conversation_history = torch.cat([conversation_history, response_ids], dim=-1)
