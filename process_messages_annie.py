@@ -1,7 +1,7 @@
 import json
 import re
 
-messages = open("discord.txt").read() 
+messages = open("Data/discord.txt").read() 
 
 # split at either Anastasia: or Andrew: (but keep those two as part of the message)
 messages = re.split(r"(Anastasia:|Andrew:.*)", messages)[1:]
@@ -12,15 +12,17 @@ def get_chunks():
     for message in messages: 
         if len(chunk) > 2**11:
             chunks.append(chunk)
-            chunk = message + "####"
+            chunk = message + "\n"
         else:
-            chunk += message + "####"
+            chunk += message + "\n"
     chunks.append(chunk)
+    chunks = [re.sub(r"Anastasia:\n", "Anastasia: ", chunk) for chunk in chunks]
     return chunks 
 
 chunks = get_chunks()
+print(chunks[0])
 # jsonl format {"text": ...}
-with open(f"discord.jsonl", "w") as f:
+with open(f"Data/discord_annie.jsonl", "w") as f:
     for chunk in chunks:
         mydict = {
             "text": chunk
