@@ -1,7 +1,8 @@
 import sys
+
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
 from accelerate import Accelerator
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 girls = {
     1: {
@@ -14,7 +15,8 @@ girls = {
     },
     3: {
         "name": "Anastasia",
-        "model": "dandelion4/annie-mixtral"
+        # "model": "dandelion4/annie-mixtral"
+        "model": "mistralai/Mixtral-8x7B-Instruct-v0.1"
     }
 }
 
@@ -26,7 +28,9 @@ girl = int(sys.argv[1])
 
 # Initialize the tokenizer and model
 adapter_model_id = girls[girl]["model"]
-model = AutoModelForCausalLM.from_pretrained(adapter_model_id)
+model = AutoModelForCausalLM.from_pretrained(adapter_model_id, low_cpu_mem_usage=True, load_in_8bit=True, 
+                                             torch_dtype=torch.bfloat16,
+                                             device_map="auto", trust_remote_code=True)
 tokenizer = AutoTokenizer.from_pretrained(adapter_model_id)
 
 # Ensure the model is in evaluation mode
@@ -57,7 +61,7 @@ while True:
     response_ids = accelerator.unwrap_model(model).generate(
         inputs,
         repetition_penalty=1.1,
-        max_new_tokens=1024,
+        max_new_tokens=128,
         temperature=0.9,
         top_p=0.95,
         top_k=40,
