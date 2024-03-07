@@ -71,7 +71,7 @@ while True:
         max_new_tokens=128,
         temperature=0.8,
         top_p=0.8,
-        top_k=40,
+        top_k=0,
         bos_token_id=tokenizer.bos_token_id,
         eos_token_id=tokenizer.eos_token_id,
         pad_token_id=tokenizer.pad_token_id,
