@@ -47,7 +47,7 @@ model.eval()
 model = accelerator.prepare(model)
 
 # Initialize conversation history
-conversation_history = open(f"{girls[girl]['name']}_start.txt").read().strip() + "\n"
+conversation_history = open(f"Data/{girls[girl]['name']}_start.txt").read().strip() + "\n"
 
 # Chat loop
 while True:
@@ -68,7 +68,7 @@ while True:
     response_ids = accelerator.unwrap_model(model).generate(
         inputs,
         repetition_penalty=1.1,
-        max_new_tokens=128,
+        max_new_tokens=1024,
         temperature=0.8,
         top_p=0.8,
         top_k=0,
