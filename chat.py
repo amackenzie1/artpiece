@@ -90,5 +90,5 @@ while True:
 
     # Update conversation history with the model's response
     response_ids = tokenizer.encode(f"{response}\n", return_tensors="pt")
-    response_ids = response_ids.to(accelerator.device)
+    response_ids = response_ids.to(conversation_history.device)  
     conversation_history = torch.cat([conversation_history, response_ids], dim=-1)
