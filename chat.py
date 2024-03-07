@@ -47,9 +47,7 @@ model.eval()
 model = accelerator.prepare(model)
 
 # Initialize conversation history
-conversation_history = """
-    Discord chat logs: 2024-03-07
-"""
+conversation_history = f"#### Discord chat logs between me and {girls[girl]["name"]} ####\n"
 
 # Chat loop
 while True:
