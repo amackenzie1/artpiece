@@ -65,9 +65,9 @@ while True:
                                 num_return_sequences=1)
     raw_response = tokenizer.decode(response_ids[0], skip_special_tokens=True)
     response = raw_response.split(conversation_history)[-1]
-    response = response.split(f"\n{name}:")[0]
+    response = response.split(f"{name}:")[0]
     # Print the model's response
     print(f"{name}: {response}")
 
     # Update conversation history with the model's response
-    conversation_history += response + "\n"
+    conversation_history += response 
